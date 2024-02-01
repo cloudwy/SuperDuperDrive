@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,23 +20,33 @@ class CloudStorageApplicationTests {
 	@LocalServerPort
 	private int port;
 
-	private WebDriver driver;
+//	private WebDriver driver;
+private static WebDriver driver;
+
+
+//	Starting ChromeDriver 121.0.6167.85 (3f98d690ad7e59242ef110144c757b2ac4eef1a2-refs/branch-heads/6167@{#1539}) on port 16974
+//	Only local connections are allowed
 
 	@BeforeAll
 	static void beforeAll() {
-		WebDriverManager.chromedriver().setup();
+//		WebDriverManager.chromedriver().setup();
+		System.setProperty("webdriver.chrome.driver", "/Users/yunwu/Downloads/chromedriver-mac-arm64/chromedriver");
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("start-maximized");
+		options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+		driver = new ChromeDriver(options);
 	}
 
 	@BeforeEach
 	public void beforeEach() {
-		this.driver = new ChromeDriver();
+//		this.driver = new ChromeDriver();
 	}
 
 	@AfterEach
 	public void afterEach() {
-		if (this.driver != null) {
-			driver.quit();
-		}
+//		if (this.driver != null) {
+//			driver.quit();
+//		}
 	}
 
 	@Test
@@ -119,6 +130,8 @@ class CloudStorageApplicationTests {
 
 	}
 
+
+
 	/**
 	 * PLEASE DO NOT DELETE THIS TEST. You may modify this test to work with the 
 	 * rest of your code. 
@@ -134,7 +147,7 @@ class CloudStorageApplicationTests {
 	public void testRedirection() {
 		// Create a test account
 		doMockSignUp("Redirection","Test","RT","123");
-		
+
 		// Check if we have been redirected to the log in page.
 		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
@@ -175,6 +188,7 @@ class CloudStorageApplicationTests {
 	 * Read more about file size limits here: 
 	 * https://spring.io/guides/gs/uploading-files/ under the "Tuning File Upload Limits" section.
 	 */
+
 	@Test
 	public void testLargeUpload() {
 		// Create a test account
